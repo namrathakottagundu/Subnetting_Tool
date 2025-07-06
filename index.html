@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Subnetting Tool</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <!-- Landing Page Section -->
+    <div id="landingPage" class="intro-container">
+        <h1>Welcome to the Advanced Subnetting Tool</h1>
+        <p>This tool helps you calculate subnet details with ease.</p>
+        <button class="start-button" onclick="showIntro()">Get Started</button>
+    </div>
+
+    <!-- Introduction Section (Initially Hidden) -->
+    <div id="introSection" class="intro-container" style="display: none;">
+        <h1>Welcome to the Advanced Subnetting Tool</h1>
+        <p>This tool helps you calculate subnet details with ease.</p>
+        
+        <h2>Understanding Subnetting and Subnet Masks</h2>
+        <h3>What is Subnetting?</h3>
+        <p>Subnetting is a method used in networking to divide a larger network into smaller, more manageable subnetworks (subnets). It helps improve network performance, enhances security, and optimizes IP address usage.</p>
+
+        <h3>What is a Subnet Mask?</h3>
+        <p>A <strong>subnet mask</strong> is a 32-bit number that separates the network portion and the host portion of an IP address. It helps define the size of a subnet and determines how many devices (hosts) can exist within that subnet.</p>
+        
+        <h3>Common Subnet Masks & Their CIDR Notation</h3>
+        <center>
+        <table border="1">
+            <tr>
+                <th>CIDR</th>
+                <th>Subnet Mask</th>
+                <th>Hosts Per Subnet</th>
+                <th>Usable Hosts</th>
+                <th>Subnet Increments</th>
+            </tr>
+            <tr><td>/24</td><td>255.255.255.0</td><td>256</td><td>254</td><td>1</td></tr>
+            <tr><td>/25</td><td>255.255.255.128</td><td>128</td><td>126</td><td>128</td></tr>
+            <tr><td>/26</td><td>255.255.255.192</td><td>64</td><td>62</td><td>64</td></tr>
+            <tr><td>/27</td><td>255.255.255.224</td><td>32</td><td>30</td><td>32</td></tr>
+            <tr><td>/28</td><td>255.255.255.240</td><td>16</td><td>14</td><td>16</td></tr>
+            <tr><td>/29</td><td>255.255.255.248</td><td>8</td><td>6</td><td>8</td></tr>
+            <tr><td>/30</td><td>255.255.255.252</td><td>4</td><td>2</td><td>4</td></tr>
+        </table>
+    </center>
+
+        <h3>Why is Subnetting Important?</h3>
+        <ul>
+            <strong>Efficient Use of IP Addresses</strong> – Prevents wastage of IPs, especially in IPv4 networks.<br/>
+            <strong>Improved Network Performance</strong> – Reduces congestion by isolating traffic within subnets.<br/>
+            <strong>Enhanced Security</strong> – Limits exposure by segmenting networks.<br/>
+            <strong>Better Network Management</strong> – Helps control traffic flow and optimize routing.<br/>
+        </ul>
+
+        <!-- Navigation Button -->
+        <button class="start-button" onclick="showTool()">Get Started</button>
+    </div>
+
+    <!-- Subnetting Tool Section (Initially Hidden) -->
+    <div id="toolSection" class="container" style="display: none;">
+        <h1>Advanced Subnetting Tool</h1>
+        <form id="subnetForm">
+            <label for="ipAddress">IP Address:</label>
+            <input type="text" id="ipAddress" placeholder="e.g., 192.168.1.0" required>
+
+            <label for="subnetMask">Subnet Mask:</label>
+            <select id="subnetMask" required>
+                <option value="24">/24</option>
+                <option value="25">/25</option>
+                <option value="26">/26</option>
+                <option value="27">/27</option>
+                <option value="28">/28</option>
+                <option value="29">/29</option>
+                <option value="30">/30</option>
+            </select>
+
+            <button type="button" onclick="calculateSubnets()">Calculate</button>
+        </form>
+
+        <div id="result" class="result" style="display: none;">
+            <h3>Calculated Subnet Information</h3>
+            <p id="ipResult"></p>
+            <p id="subnetResult"></p>
+            <p id="wildcardResult"></p>
+            <p id="binaryMaskResult"></p>
+            <p id="networkResult"></p>
+            <p id="usableRangeResult"></p>
+            <p id="broadcastResult"></p>
+            <p id="totalHostsResult"></p>
+            <p id="usableHostsResult"></p>
+            <p id="ipClassResult"></p>
+            <p id="cidrResult"></p>
+            <p id="ipTypeResult"></p>
+            <a id="detailsLink" href="#">View Step-by-Step Breakdown</a>
+        </div>
+    </div>
+
+    <script>
+        function showIntro() {
+            document.getElementById("landingPage").style.display = "none";
+            document.getElementById("introSection").style.display = "block";
+        }
+
+        function showTool() {
+            document.getElementById("introSection").style.display = "none";
+            document.getElementById("toolSection").style.display = "block";
+        }
+    </script>
+</body>
+</html>

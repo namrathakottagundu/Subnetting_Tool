@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Class Breakdown</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>IP Class Breakdown</h1>
+    </header>
+    <main>
+        <p>Below is the detailed breakdown of how the IP Class is calculated for the given IP Address.</p>
+
+        <div id="steps"></div>
+
+        <div>
+            
+            <button onclick="window.history.back();">Go Back</button>
+
+        </div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const ipAddress = urlParams.get('ip');
+
+        function calculateIPClass() {
+            const firstOctet = parseInt(ipAddress.split('.')[0]);
+
+            let ipClass;
+            if (firstOctet >= 1 && firstOctet <= 126) {
+                ipClass = 'A';
+            } else if (firstOctet >= 128 && firstOctet <= 191) {
+                ipClass = 'B';
+            } else if (firstOctet >= 192 && firstOctet <= 223) {
+                ipClass = 'C';
+            } else if (firstOctet >= 224 && firstOctet <= 239) {
+                ipClass = 'D';
+            } else {
+                ipClass = 'E';
+            }
+
+            let stepsHTML = `
+                <p><strong>IP Address:</strong> ${ipAddress}</p>
+                <p><strong>Class:</strong> ${ipClass}</p>
+                <p><strong>Step-by-Step Calculation:</strong></p>
+                <ol>
+                    <li>1. Check the first octet of the IP address: <code>${firstOctet}</code></li>
+                    <li>2. Based on the first octet, the IP class is determined: <code>${ipClass}</code></li>
+                </ol>
+            `;
+            
+            document.getElementById('steps').innerHTML = stepsHTML;
+        }
+
+        function goBack() {
+            window.history.back(); // Goes back to the previous page
+        }
+
+        calculateIPClass();
+    </script>
+</body>
+</html>

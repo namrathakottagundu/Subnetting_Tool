@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subnet Mask Calculation</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Subnet Mask Calculation Procedure</h1>
+
+
+        <!-- Display input details -->
+        <div id="inputValues">
+            <p><strong>IP Address:</strong> <span id="ipAddress"></span></p>
+            <p><strong>Subnet Mask (CIDR):</strong> /<span id="subnetMask"></span></p>
+        </div>
+
+        <h2>Step 1: Determine Subnet Mask From CIDR</h2>
+        <p>To calculate the subnet mask, take the number of bits provided in the CIDR notation </p>
+        <p><strong>Result:</strong> <span id="subnetMaskBinary"></span></p>
+
+        <h2>Step 2: Convert Subnet Mask to Decimal</h2>
+        <p>The binary subnet mask is then converted into decimal. Here is the conversion:</p>
+        <p><strong>Subnet Mask (Decimal):</strong> <span id="subnetMaskDecimal"></span></p>
+        <div>
+            <button onclick="window.history.back();">Go Back</button>
+        </div>
+    </div>
+
+    <script>
+        // Get the IP address and subnet mask from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const ipAddress = urlParams.get('ip');
+        const subnetMask = parseInt(urlParams.get('subnet'));
+
+        // Display the input values
+        document.getElementById('ipAddress').innerText = ipAddress;
+        document.getElementById('subnetMask').innerText = subnetMask;
+
+        // Step 1: CalcBinaryulate Subnet Mask in 
+        const subnetMaskBinary = '1'.repeat(subnetMask) + '0'.repeat(32 - subnetMask);
+        document.getElementById('subnetMaskBinary').innerText = subnetMaskBinary.match(/.{1,8}/g).join('.');
+
+        // Step 2: Convert Subnet Mask Binary to Decimal
+        const subnetMaskDecimal = [
+            parseInt(subnetMaskBinary.substring(0, 8), 2),
+            parseInt(subnetMaskBinary.substring(8, 16), 2),
+            parseInt(subnetMaskBinary.substring(16, 24), 2),
+            parseInt(subnetMaskBinary.substring(24, 32), 2)
+        ];
+        document.getElementById('subnetMaskDecimal').innerText = subnetMaskDecimal.join('.');
+
+    </script>
+</body>
+</html>

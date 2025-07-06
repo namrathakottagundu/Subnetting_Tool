@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Address Breakdown</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Network Address Breakdown</h1>
+    </header>
+    <main>
+        <p>Below is the detailed breakdown of how the Network Address is calculated for the given IP and Subnet Mask.</p>
+
+        <div id="steps"></div>
+
+        <div>
+            <button onclick="window.history.back();">Go Back</button>
+        </div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const ipAddress = urlParams.get('ip');
+        const subnetMask = parseInt(urlParams.get('subnet'));
+
+        function calculateNetworkAddress() {
+            const ipParts = ipAddress.split('.').map(Number);
+            const subnetMaskBinary = '1'.repeat(subnetMask) + '0'.repeat(32 - subnetMask);
+            const subnetMaskDecimal = [
+                parseInt(subnetMaskBinary.substring(0, 8), 2),
+                parseInt(subnetMaskBinary.substring(8, 16), 2),
+                parseInt(subnetMaskBinary.substring(16, 24), 2),
+                parseInt(subnetMaskBinary.substring(24, 32), 2)
+            ];
+
+            const networkAddressBinary = ipParts
+                .map((octet, index) => (octet & subnetMaskDecimal[index]).toString(2).padStart(8, '0'))
+                .join('');
+
+            const networkAddressDecimal = [
+                parseInt(networkAddressBinary.substring(0, 8), 2),
+                parseInt(networkAddressBinary.substring(8, 16), 2),
+                parseInt(networkAddressBinary.substring(16, 24), 2),
+                parseInt(networkAddressBinary.substring(24, 32), 2)
+            ];
+
+            let stepsHTML = `
+                <p><strong>IP Address:</strong> ${ipAddress}</p>
+                <p><strong>Subnet Mask (Decimal):</strong> ${subnetMaskDecimal.join('.')}</p>
+                <p><strong>Network Address (Decimal):</strong> ${networkAddressDecimal.join('.')}</p>
+                <p><strong>Step-by-Step Calculation:</strong></p>
+                <ol>
+                    <li>1. Convert the IP address and subnet mask to binary.</li>
+                    <li>2. Perform a bitwise AND operation between the IP address and subnet mask.</li>
+                    <li>3. The result is the network address: <code>${networkAddressDecimal.join('.')}</code></li>
+                </ol>
+            `;
+            
+            document.getElementById('steps').innerHTML = stepsHTML;
+        }
+
+        function goBack() {
+            window.history.back(); // Goes back to the previous page
+        }
+
+        calculateNetworkAddress();
+    </script>
+</body>
+</html>

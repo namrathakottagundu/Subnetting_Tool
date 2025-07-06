@@ -1,0 +1,12 @@
+IP Address,
+Subnet Mask,
+Wildcard Mask,
+Binary Subnet Mask,
+Network Address,
+Usable Host IP Range,
+Broadcast Address,
+Total Number of Hosts,
+Number of Usable Hosts,
+IP Class,
+CIDR Notation,
+IP Type
