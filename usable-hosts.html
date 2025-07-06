@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usable Hosts Breakdown</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Usable Hosts Breakdown</h1>
+    </header>
+    <main>
+        <p>Below is the detailed breakdown of how the Usable Hosts is calculated for the given IP and Subnet Mask.</p>
+
+        <div id="steps"></div>
+
+        <div>
+            <button onclick="window.history.back();">Go Back</button>
+        </div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const subnetMask = parseInt(urlParams.get('subnet'));
+
+        function calculateUsableHosts() {
+            const totalHosts = Math.pow(2, 32 - subnetMask);
+            const usableHosts = totalHosts - 2; // Subtract 2 for network and broadcast
+
+            let stepsHTML = `
+                <p><strong>Usable Hosts:</strong> ${usableHosts}</p>
+                <p><strong>Step-by-Step Calculation:</strong></p>
+                <ol>
+                    <li>1. The formula for usable hosts is total hosts - 2.</li>
+                    <li>2. In this case: ${totalHosts} - 2 = ${usableHosts}</li>
+                </ol>
+            `;
+            
+            document.getElementById('steps').innerHTML = stepsHTML;
+        }
+
+        function goBack() {
+            window.history.back(); // Goes back to the previous page
+        }
+
+        calculateUsableHosts();
+    </script>
+</body>
+</html>

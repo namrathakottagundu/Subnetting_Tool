@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildcard Mask Breakdown</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Wildcard Mask Breakdown</h1>
+    </header>
+    <main>
+        <p>Below is the detailed breakdown of how the Wildcard Mask is calculated for the given IP and Subnet Mask.</p>
+
+        <div id="steps"></div>
+
+        <div>
+            <button onclick="window.history.back();">Go Back</button>
+        </div>
+    </main>
+
+    <script>
+        // Retrieve the query parameters from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const ipAddress = urlParams.get('ip');
+        const subnetMask = parseInt(urlParams.get('subnet'));
+
+        // Function to calculate and display the wildcard mask step by step
+        function calculateWildcardMask() {
+            const ipParts = ipAddress.split('.').map(Number);
+            
+            // Calculate the subnet mask in decimal
+            const subnetMaskBinary = '1'.repeat(subnetMask) + '0'.repeat(32 - subnetMask);
+            const subnetMaskDecimal = [
+                parseInt(subnetMaskBinary.substring(0, 8), 2),
+                parseInt(subnetMaskBinary.substring(8, 16), 2),
+                parseInt(subnetMaskBinary.substring(16, 24), 2),
+                parseInt(subnetMaskBinary.substring(24, 32), 2)
+            ];
+
+            // Calculate the wildcard mask (255 - subnet mask)
+            const wildcardMask = subnetMaskDecimal.map(octet => 255 - octet);
+            
+            // Display the process and result step by step
+            let stepsHTML = `
+                <p><strong>IP Address:</strong> ${ipAddress}</p>
+                <p><strong>Subnet Mask (CIDR):</strong> /${subnetMask}</p>
+                <p><strong>Subnet Mask (Decimal):</strong> ${subnetMaskDecimal.join('.')}</p>
+                <p><strong>Wildcard Mask (Decimal):</strong> ${wildcardMask.join('.')}</p>
+                <p><strong>Step-by-Step Calculation:</strong></p>
+                <ol>
+                    <li>1. Convert the subnet mask from CIDR notation to binary: <code>${subnetMaskBinary}</code></li>
+                    <li>2. Break the binary subnet mask into four octets.</li>
+                    <li>3. Subtract each octet from 255 to calculate the wildcard mask: <code>${wildcardMask.join('.')}</code></li>
+                </ol>
+            `;
+            
+            document.getElementById('steps').innerHTML = stepsHTML;
+        }
+
+        function goBack() {
+            window.history.back(); // Goes back to the previous page
+        }
+
+        // Initialize the page by calling the calculate function
+        calculateWildcardMask();
+    </script>
+</body>
+</html>

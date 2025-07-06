@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Hosts Breakdown</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Total Hosts Breakdown</h1>
+    </header>
+    <main>
+        <p>Below is the detailed breakdown of how the Total Number of Hosts is calculated for the given IP and Subnet Mask.</p>
+
+        <div id="steps"></div>
+
+        <div>
+            <button onclick="window.history.back();">Go Back</button>
+        </div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const subnetMask = parseInt(urlParams.get('subnet'));
+
+        function calculateTotalHosts() {
+            const totalHosts = Math.pow(2, 32 - subnetMask);
+
+            let stepsHTML = `
+                <p><strong>Total Hosts:</strong> ${totalHosts}</p>
+                <p><strong>Step-by-Step Calculation:</strong></p>
+                <ol>
+                    <li>1. The formula for total hosts is 2^(32 - subnet mask).</li>
+                    <li>2. In this case: 2^(32 - ${subnetMask}) = ${totalHosts}</li>
+                </ol>
+            `;
+            
+            document.getElementById('steps').innerHTML = stepsHTML;
+        }
+
+        function goBack() {
+            window.history.back(); // Goes back to the previous page
+        }
+
+        calculateTotalHosts();
+    </script>
+</body>
+</html>
